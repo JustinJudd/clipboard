@@ -16,3 +16,7 @@ func ReadAll() (string, error) {
 func WriteAll(text string) error {
 	return writeAll(text)
 }
+
+func IsAvailable() bool {
+	return isAvailable()
+}

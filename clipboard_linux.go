@@ -11,23 +11,25 @@ import (
 )
 
 var (
-	pasteCmdArgs 	[]string
-	copyCmdArgs		[]string
+	pasteCmdArgs []string
+	copyCmdArgs  []string
 
 	xselPaste = []string{"xsel", "--output", "--clipboard"}
-	xselCopy = []string{"xsel", "--input", "--clipboard"}
+	xselCopy  = []string{"xsel", "--input", "--clipboard"}
 
 	xclipPaste = []string{"xclip", "-out", "-secondary", "clipboard"}
-	xclipCopy = []string{"xclip", "-in", "-secondary", "clipboard"}
+	xclipCopy  = []string{"xclip", "-in", "-secondary", "clipboard"}
+	available  bool
 )
 
-
 func init() {
+	available = true
 	_, err := exec.LookPath("xsel")
 	if err != nil {
 		_, err = exec.LookPath("xclip")
 		if err != nil {
 			println("No clipboard utilities available. Please install xset or xclip.")
+			available = false
 			return
 		}
 		pasteCmdArgs = xclipPaste
@@ -37,6 +39,10 @@ func init() {
 	copyCmdArgs = xselCopy
 }
 
+func isAvailable() bool {
+	return available
+}
+
 func getPasteCommand() *exec.Cmd {
 	return exec.Command(pasteCmdArgs[0], pasteCmdArgs[1:]...)
 }
@@ -44,7 +50,6 @@ func getPasteCommand() *exec.Cmd {
 func getCopyCommand() *exec.Cmd {
 	return exec.Command(copyCmdArgs[0], copyCmdArgs[1:]...)
 }
-
 
 func readAll() (string, error) {
 	pasteCmd := getPasteCommand()

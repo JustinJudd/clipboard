@@ -99,3 +99,7 @@ func writeAll(text string) error {
 	}
 	return nil
 }
+
+func isAvailable() bool {
+	return true
+}

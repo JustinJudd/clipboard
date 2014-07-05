@@ -50,3 +50,7 @@ func writeAll(text string) error {
 	}
 	return copyCmd.Wait()
 }
+
+func isAvailable() bool {
+	return true
+}
